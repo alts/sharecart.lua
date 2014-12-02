@@ -114,8 +114,8 @@ end
 
 local _ini_set = function (t, key, value)
   local translator = set_translators[key]
-  if translator == nil and t.unsafe == false then
-    error(string.format("Key %s isn't a sharecart save key", key))
+  if translator == nil then
+    error(string.format("Key \"%s\" isn't a sharecart save key", key))
   end
 
   if set_constraints[key](value) == false then
