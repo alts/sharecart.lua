@@ -123,6 +123,7 @@ local _ini_set = function (t, key, value)
   end
 
   _ini_data.Main[key] = translator(value)
+  inifile.save(t.path, _ini_data)
 end
 
 
