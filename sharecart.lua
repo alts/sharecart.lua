@@ -119,7 +119,7 @@ local _ini_set = function (t, key, value)
   end
 
   if set_constraints[key](value) == false then
-    error("Key %s can't store the given value %s", key, tostring(value))
+    error(string.format("Key \"%s\" can't store the given value (%s)", key, tostring(value)))
   end
 
   _ini_data.Main[key] = translator(value)
