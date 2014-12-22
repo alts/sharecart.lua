@@ -1,5 +1,4 @@
 local inifile = require('lib.inifile')
-local inspect = require('lib.inspect')
 
 
 -- translators
@@ -123,7 +122,7 @@ local _ini_set = function (t, key, value)
   end
 
   _ini_data.Main[key] = translator(value)
-  inifile.save(t.path, _ini_data)
+  inifile.save(t.path, _ini_data, 'io')
 end
 
 
@@ -149,7 +148,7 @@ sharecart.load = function (pwd, unsafe)
     path = pwd .. '/../dat/o_o.ini'
   }
 
-  _ini_data = inifile.parse(t.path)
+  _ini_data = inifile.parse(t.path, 'io')
 
   return setmetatable(t, {
     __index = _ini_get,
