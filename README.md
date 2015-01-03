@@ -16,6 +16,21 @@ compatible directory. If it isn't, it's up to your game to decide what to do.
 Maybe you create a sibling directory? Maybe you bail out and let the player
 know they should move the game? I don't know. Your call.
 
+If you're using this from Love2D like I would be, there's an alternate initializer that you should use.
+
+```lua
+-- you should add the following code to your existing love.load declaration
+function love.load(args)
+	local sharecart_data = sharecart.love_load(love, args)
+	if sharecart_data == nil then
+	    -- do something to handle the fact that there is no
+	    -- save file where it should be
+	end
+end
+```
+
+This will run the `.valid` check for you, and do a couple other things to make sure that it will correctly find the sharecart save file. Otherwise if you distribute Mac .app games it won't work correctly, without some additional effort.
+
 The Sharecart save file permits only specifc keys and restricted values for them
 
 - MapX (0-1023)

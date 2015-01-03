@@ -1,6 +1,5 @@
 local inifile = require('lib.inifile')
 
-
 -- translators
 local id = function (v)
   return v
@@ -156,5 +155,28 @@ sharecart.load = function (pwd, unsafe)
   })
 end
 
+
+sharecart.love_load = function (love, load_args)
+  -- we can't relibaly do anything in the case that we can't identify the os
+  if love._os == nil then
+    return nil
+  end
+
+  local cwd
+
+  if love._os == 'OS X' and love.filesystem.isFused() then
+    -- fused mode on macs returns a bad getWorkingDirectory value
+    match_start, match_end = load_args[1]:find('[^/]+.app')
+    cwd = load_args[1]:sub(0, match_start - 1)
+  else
+    cwd = love.filesystem.getWorkingDirectory()
+  end
+
+  if not sharecart.valid(cwd) then
+    return nil
+  end
+
+  return sharecart.load(cwd)
+end
 
 return sharecart
