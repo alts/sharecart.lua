@@ -1,0 +1,89 @@
+<html>
+<head>
+	<title>What is SHARECART1000?</title>
+	<style type="text/css">
+	body {
+		color: #fff;
+		background: #000;
+		font-family: Helvetica,Arial,sans-serif;
+		width:700px;
+		margin:1em auto;
+	}
+	h1 {
+		text-align:center;
+		color:#04AECC;
+	}
+	h4 {
+		color:#04AECC;
+	}
+	p {
+		line-height: 1.5;
+	}
+	pre {
+		color: #909098;
+	}
+	.hl {
+		color:#6CFADC;
+	}
+	a, a:link, a:visited {
+		color:#045C9C;
+	}
+	</style>
+</head>
+<body>
+	<h1>What is SHARECART1000?</h1>
+	<p>
+		That depends on who you are. It means different things for someone
+		playing sharecart games versus someone making sharecart games.
+	</p>
+	<h4>&#9618; For Players</h4>
+	<p>SHARECART is basically a way for games to talk to one another. All
+		SHARECART games share a save file, so by playing one game, you're
+		rewriting your save file for another SHARECART game. This might be used
+		to let you access parts of the map that are otherwise inaccessible, or
+		change your inventory, or even the game's rules. Who knows? You just
+		have to pull all your SHARECART games in one folder (typically called
+		SHARECART1000) and then see what happens.</p>
+	<p>You'll want to have at least one place to keep all of your SHARECART games,
+		and the folder structure will look something like this:</p>
+	<pre>
+SHARECART1000/
+  dat/
+    o_o.ini       <span class="hl">&lt;-- This is the shared save file. Super important!</span>
+  fjords/
+    fjords.app    <span class="hl">&lt;-- The file that will run the game, whether an app or</span>
+    fjords.exe    <span class="hl">    exe, should live right inside the game folder</span>
+    ...           <span class="hl">&lt;-- There are a bunch of other game files here</span>
+  postfuturevagabond/
+    postfuturevagabond.app
+    postfuturevagabond.exe</pre>
+    <p>To get you started, you can just download this <a href="#">SHARECART STARTER KIT</a>
+    	zip file. It'll create the SHARECART1000 and dat folders, as well as the
+    	o_o.ini file. Then you should download a bunch of <a href="http://sharecart1000.com/">SHARECART games</a>.
+    	Remember, folders named after the game go into the SHARECART1000 folder.</p>
+    <p>Now go play.</p>
+	<h4>&#9618; For Developers</h4>
+	<p>First, take a look at
+		<a href="http://sharecart1000.com/img/SHARECART1000guide.png">the canonical SHARECART guide</a>.</p>
+	<p>That image is good enough for most use cases, but I think  there are a few
+		things that get glossed over.</p>
+	<p><strong>Cross-platform:</strong> It'd be cool if you made your game Mac
+		compatible. If you do, remember that a .app file isn't actually a file,
+		but just another directory that contains an executable somewhere deeper.
+		Make sure you're looking for the dat/ directory in the right place.</p>
+	<p><strong>Solo Distribution:</strong> Your game may be the first SHARECART
+		game someone downloads. You should include the dat/ directory in the .zip
+		you distribute. You should probably also include the root SHARECART1000
+		directory in there too, just for clarity, and to make it easier to figure
+		out where to move future SHARECART games.</p>
+	<p><strong>Clean Garbage:</strong> It's probably best that you approach the
+		o_o.ini file defensively. For example, if you find a number where a
+		boolean value should be, maybe convert it and save it into something
+		more correct? It'd suck for one game that does something wrong to
+		destroy the save file for all other games.</p>
+	<p>I made a small Lua library for interfacing with the SHARECART save in a clean way.
+		<a href="https://github.com/alts/sharecart.lua">Check it out</a>, and if
+		you make one for another language, <a href="mailto:stephen@evilrobotstuff.com">contact me</a>
+		and I'll list it here too.</p>
+</body>
+</html>
