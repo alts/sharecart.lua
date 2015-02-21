@@ -1,7 +1,7 @@
 package = "sharecart"
 version = "dev-1"
 source = {
-  url = "git://github.com/leafo/sharecart.git",
+  url = "git://github.com/leafo/sharecart.lua.git",
 }
 description = {
   summary = "sharecart",
