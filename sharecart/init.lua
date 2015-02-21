@@ -148,6 +148,7 @@ sharecart.load = function (pwd, unsafe)
   }
 
   _ini_data = inifile.parse(t.path, 'io')
+  _ini_data.Main = _ini_data.Main or {}
 
   return setmetatable(t, {
     __index = _ini_get,
