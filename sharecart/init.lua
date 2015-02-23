@@ -169,6 +169,9 @@ sharecart.love_load = function (love, load_args)
     -- fused mode on macs returns a bad getWorkingDirectory value
     match_start, match_end = load_args[1]:find('[^/]+.app')
     cwd = load_args[1]:sub(0, match_start - 1)
+  elseif load_args[1]:find('[^/]+.love') then
+    match_start, match_end = load_args[1]:find('[^/]+.love')
+    cwd = load_args[1]:sub(0, match_start - 1)
   else
     cwd = love.filesystem.getWorkingDirectory()
   end
