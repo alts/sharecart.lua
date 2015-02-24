@@ -127,14 +127,18 @@ end
 
 local sharecart = {}
 
-sharecart.valid = function (pwd)
-  local f = io.open(pwd .. '/../dat/o_o.ini', 'r')
+local file_exists = function (path)
+  local f = io.open(path)
   if f ~= nil then
     io.close(f)
     return true
   else
     return false
   end
+end
+
+sharecart.valid = function (pwd)
+  return file_exists(pwd .. '/../dat/o_o.ini', 'r')
 end
 
 sharecart.load = function (pwd, unsafe)
@@ -158,22 +162,39 @@ end
 
 
 sharecart.love_load = function (love, load_args)
-  -- we can't relibaly do anything in the case that we can't identify the os
+  -- we can't reliably do anything in the case that we can't identify the os
   if love._os == nil then
     return nil
   end
 
   local cwd
 
-  if love._os == 'OS X' and love.filesystem.isFused() then
-    -- fused mode on macs returns a bad getWorkingDirectory value
+  if load_args[1] == nil then
+    -- case: Fused windows executables don't supply the argument at position 1
+    -- if that value doesn't exist, .getWorkingDirectory is our only alternative
+    cwd = love.filesystem.getWorkingDirectory()
+  elseif love._os == 'OS X' and love.filesystem.isFused() then
+    -- case: Mac love.app with integrated .love file
+    -- since the executable and the .love file don't sit in a sibling
+    -- directory of `dat`, we have to correct the path. The .app file should
+    -- be in the correct location, and we can build the path based on that
     match_start, match_end = load_args[1]:find('[^/]+.app')
     cwd = load_args[1]:sub(0, match_start - 1)
-  elseif load_args[1]:find('[^/]+.love') then
-    match_start, match_end = load_args[1]:find('[^/]+.love')
+  elseif load_args[1] ~= nil and load_args[1]:find('[^/\\]+.love') then
+    -- case: Running the game from the .love archive
+
+    -- The .love archive should follow the positioning rules for executables
+    match_start, match_end = load_args[1]:find('[^/\\]+.love')
     cwd = load_args[1]:sub(0, match_start - 1)
+
+    -- In the case that the first love argument is just the path to the archive,
+    -- then we know that the current directory is the containing directory
+    if #cwd == 0 then
+      cwd = '.'
+    end
   else
-    cwd = love.filesystem.getWorkingDirectory()
+    -- otherwise whatever is passed as the first argument should work
+    cwd = load_args[1]
   end
 
   if not sharecart.valid(cwd) then
